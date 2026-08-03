@@ -1,21 +1,26 @@
 package com.shlok.tracker.widget
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.LocalContext
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.background
 import androidx.glance.layout.*
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import com.shlok.tracker.MainActivity
 import com.shlok.tracker.data.local.Subscription
 import java.util.concurrent.TimeUnit
 
@@ -40,7 +45,8 @@ class NextSubscriptionWidget(
                 .fillMaxSize()
                 .background(backgroundColor)
                 .cornerRadius(16.dp)
-                .padding(16.dp),
+                .padding(16.dp)
+                .clickable(actionStartActivity(Intent(LocalContext.current, MainActivity::class.java))),
             verticalAlignment = Alignment.CenterVertically,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
