@@ -3,9 +3,12 @@
 An offline-first, privacy-focused Android application that automates subscription tracking by locally parsing bank SMS messages. Built natively for Android using Modern Kotlin, Jetpack Compose, and Clean Architecture.
 
 ## 🖼 Screenshots
-* **Screenshot 1:** Biometric Login Screen
-* **Screenshot 2:** Predictive Cashflow Canvas Dashboard
-* **Screenshot 3:** Jetpack Glance Home Screen Widget
+
+| Biometric Login | Predictive Cashflow Dashboard | Home Screen Widget |
+| :---: | :---: | :---: |
+| <img width="250" alt="Screenshot_20260804_100626" src="https://github.com/user-attachments/assets/0b0eb765-61fc-431e-97d8-bfb17ec9aa81" /> | <img width="250" alt="Screenshot_20260804_100205" src="https://github.com/user-attachments/assets/43a5ddbc-b864-4298-81ba-e05a04fc234d" /> | <img width="250" alt="Screenshot_20260804_100332" src="https://github.com/user-attachments/assets/09ab8d8a-d930-4d28-8ee8-bf379a0890fb" /> |
+
+
 
 ## 🚀 Technical Highlights
 
