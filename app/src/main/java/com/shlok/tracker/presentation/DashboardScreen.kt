@@ -359,6 +359,16 @@ fun CandidateCard(
 fun SubscriptionCard(subscription: Subscription) {
     val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
     val nextBilling = formatter.format(Date(subscription.nextBillingTimestamp))
+    
+    val daysLeft = TimeUnit.MILLISECONDS.toDays(
+        subscription.nextBillingTimestamp - System.currentTimeMillis()
+    ).toInt().coerceAtLeast(0)
+    
+    val dueText = when (daysLeft) {
+        0 -> "Due today"
+        1 -> "Due in 1 day"
+        else -> "Due in $daysLeft days"
+    }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -374,7 +384,11 @@ fun SubscriptionCard(subscription: Subscription) {
             Column {
                 Text(subscription.serviceName, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text("Next charge: $nextBilling", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+                Text(
+                    text = "$dueText ($nextBilling)", 
+                    style = MaterialTheme.typography.bodyMedium, 
+                    color = if (daysLeft <= 3) MaterialTheme.colorScheme.error else Color.Gray
+                )
             }
             Column(horizontalAlignment = Alignment.End) {
                 Text(
