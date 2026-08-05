@@ -1,7 +1,7 @@
 # 💸 Smart Subscription Tracker
 
 An offline-first, privacy-focused Android application that automates subscription tracking by locally parsing bank SMS messages. Built natively for Android using Modern Kotlin, Jetpack Compose, and Clean Architecture.
-help me push the changes
+
 ## 🌟 About the Project
 Managing subscriptions is a chore, and most apps require invasive access to your bank accounts via OAuth. **Smart Subscription Tracker** takes a different approach: it leverages local SMS intents to detect financial transactions in real-time, extracting subscription data entirely on-device. It combines high-level security with professional-grade data visualization to give users a clear forecast of their upcoming expenses.
 
@@ -18,6 +18,7 @@ Managing subscriptions is a chore, and most apps require invasive access to your
 *   **Biometric Security:** Integrated `androidx.biometric` with strong authentication and device credential fallback (PIN/Pattern) to protect sensitive financial data.
 *   **OS-Level Integration:** Implements a **Jetpack Glance Home Screen Widget** that queries the Room database via Coroutines to display the closest upcoming charge.
 *   **Robust Background Work:** Uses **WorkManager** to schedule daily subscription checks and trigger system-level notifications 3 days before a charge is due.
+*   **Automated DevOps Pipeline:** Features a custom Gradle task (`deployToGitHub`) that fresh-builds the APK, renames it for a professional release, and automatically creates a new GitHub Release with the artifact using the GitHub CLI.
 
 ## 🛠 Tech Stack & Architecture
 
@@ -32,6 +33,7 @@ Managing subscriptions is a chore, and most apps require invasive access to your
 ## 🧪 Testing & CI/CD
 *   **Unit Testing:** Comprehensive JUnit 4 tests for core logic (e.g., `SmsParserTest`).
 *   **CI/CD:** Automated GitHub Actions pipeline that verifies code integrity by running tests and building the debug APK on every push.
+*   **Automated Deployment:** Custom Gradle orchestration to build and push releases directly to GitHub, ensuring consistent and professional delivery.
 
 ## ⚙️ How to Build Locally
 
