@@ -47,6 +47,10 @@ class TrackerRepositoryImpl @Inject constructor(
         return subscriptionDao.getUpcomingSubscriptions(startTime, endTime)
     }
 
+    override suspend fun deleteSubscription(id: Long) {
+        subscriptionDao.deleteSubscriptionById(id)
+    }
+
     override suspend fun deleteDuplicateSubscriptions() {
         subscriptionDao.deleteDuplicateSubscriptions()
     }

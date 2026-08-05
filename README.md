@@ -1,7 +1,7 @@
 # 💸 Smart Subscription Tracker
 
 An offline-first, privacy-focused Android application that automates subscription tracking by locally parsing bank SMS messages. Built natively for Android using Modern Kotlin, Jetpack Compose, and Clean Architecture.
-
+help me push the changes
 ## 🌟 About the Project
 Managing subscriptions is a chore, and most apps require invasive access to your bank accounts via OAuth. **Smart Subscription Tracker** takes a different approach: it leverages local SMS intents to detect financial transactions in real-time, extracting subscription data entirely on-device. It combines high-level security with professional-grade data visualization to give users a clear forecast of their upcoming expenses.
 

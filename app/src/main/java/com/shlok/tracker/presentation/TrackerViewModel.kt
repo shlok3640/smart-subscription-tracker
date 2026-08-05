@@ -4,11 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shlok.tracker.data.local.Subscription
 import com.shlok.tracker.data.local.Transaction
+import com.shlok.tracker.domain.repository.SettingsRepository
 import com.shlok.tracker.domain.repository.TrackerRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -17,11 +15,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TrackerViewModel @Inject constructor(
-    private val repository: TrackerRepository
+    private val repository: TrackerRepository,
+    private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardUiState())
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
+
+    val isBiometricEnabled: StateFlow<Boolean> = settingsRepository.isBiometricEnabled()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
 
     init {
         loadDashboardData()
@@ -128,6 +130,18 @@ class TrackerViewModel @Inject constructor(
         viewModelScope.launch {
             val updatedTransaction = transaction.copy(isSubscriptionCandidate = false)
             repository.insertTransaction(updatedTransaction)
+        }
+    }
+
+    fun deleteSubscription(id: Long) {
+        viewModelScope.launch {
+            repository.deleteSubscription(id)
+        }
+    }
+
+    fun setBiometricEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setBiometricEnabled(enabled)
         }
     }
 }

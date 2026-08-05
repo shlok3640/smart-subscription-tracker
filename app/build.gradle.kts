@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.hilt:hilt-work:1.1.0")
     ksp("androidx.hilt:hilt-compiler:1.1.0")
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 
     // WorkManager for Background Tasks
     implementation("androidx.work:work-runtime-ktx:2.9.0")
@@ -73,6 +74,9 @@ dependencies {
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
+
+    // DataStore Preferences
+    implementation(libs.androidx.datastore.preferences)
 
     // Glance Home Screen Widget
     implementation(libs.androidx.glance.appwidget)

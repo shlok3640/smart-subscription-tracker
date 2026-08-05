@@ -1,6 +1,7 @@
 package com.shlok.tracker.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,6 +30,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
+import androidx.navigation.NavController
+import com.shlok.tracker.navigation.Screen
 import androidx.compose.ui.platform.LocalContext
 import com.shlok.tracker.notification.NotificationHelper
 import com.shlok.tracker.data.local.Subscription
@@ -38,7 +42,10 @@ import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(viewModel: TrackerViewModel) {
+fun DashboardScreen(
+    viewModel: TrackerViewModel,
+    navController: NavController
+) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
@@ -51,6 +58,15 @@ fun DashboardScreen(viewModel: TrackerViewModel) {
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 actions = {
+                    IconButton(onClick = {
+                        navController.navigate(Screen.Settings.route)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Settings",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
                     IconButton(onClick = {
                         NotificationHelper(context).showRenewalReminder("Test Subscription", 499.0, "INR")
                     }) {
@@ -123,7 +139,12 @@ fun DashboardScreen(viewModel: TrackerViewModel) {
                     }
                 } else {
                     items(uiState.activeSubscriptions) { subscription ->
-                        SubscriptionCard(subscription = subscription)
+                        SubscriptionCard(
+                            subscription = subscription,
+                            onClick = {
+                                navController.navigate(Screen.SubscriptionDetails.createRoute(subscription.id))
+                            }
+                        )
                     }
                 }
             }
@@ -356,7 +377,10 @@ fun CandidateCard(
 }
 
 @Composable
-fun SubscriptionCard(subscription: Subscription) {
+fun SubscriptionCard(
+    subscription: Subscription,
+    onClick: () -> Unit
+) {
     val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
     val nextBilling = formatter.format(Date(subscription.nextBillingTimestamp))
     
@@ -371,7 +395,9 @@ fun SubscriptionCard(subscription: Subscription) {
     }
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(

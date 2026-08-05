@@ -21,6 +21,9 @@ interface SubscriptionDao {
     @Query("SELECT * FROM subscriptions WHERE is_active = 1 AND next_billing_timestamp BETWEEN :startTime AND :endTime")
     suspend fun getUpcomingSubscriptions(startTime: Long, endTime: Long): List<Subscription>
 
+    @Query("DELETE FROM subscriptions WHERE id = :subscriptionId")
+    suspend fun deleteSubscriptionById(subscriptionId: Long)
+
     @Query("DELETE FROM subscriptions WHERE id NOT IN (SELECT MIN(id) FROM subscriptions GROUP BY service_name)")
     suspend fun deleteDuplicateSubscriptions()
 }

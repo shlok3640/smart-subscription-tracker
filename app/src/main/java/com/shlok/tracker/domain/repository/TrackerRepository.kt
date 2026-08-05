@@ -16,5 +16,7 @@ interface TrackerRepository {
     
     suspend fun getUpcomingSubscriptions(startTime: Long, endTime: Long): List<Subscription>
 
+    suspend fun deleteSubscription(id: Long)
+
     suspend fun deleteDuplicateSubscriptions()
 }

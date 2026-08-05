@@ -18,13 +18,21 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.shlok.tracker.presentation.DashboardScreen
+import androidx.navigation.compose.rememberNavController
+import com.shlok.tracker.domain.repository.SettingsRepository
+import com.shlok.tracker.navigation.TrackerNavHost
 import com.shlok.tracker.presentation.TrackerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
@@ -51,6 +59,15 @@ class MainActivity : FragmentActivity() {
 
         setContent {
             var isAuthenticated by remember { mutableStateOf(false) }
+            val navController = rememberNavController()
+
+            // Check biometric setting on launch
+            LaunchedEffect(Unit) {
+                val isEnabled = settingsRepository.isBiometricEnabled().first()
+                if (!isEnabled) {
+                    isAuthenticated = true
+                }
+            }
 
             MaterialTheme {
                 Surface(
@@ -59,7 +76,10 @@ class MainActivity : FragmentActivity() {
                 ) {
                     if (isAuthenticated) {
                         val viewModel: TrackerViewModel = hiltViewModel()
-                        DashboardScreen(viewModel = viewModel)
+                        TrackerNavHost(
+                            navController = navController,
+                            viewModel = viewModel
+                        )
                     } else {
                         LockScreen(onAuthenticate = { 
                             showBiometricPrompt { isAuthenticated = true }
