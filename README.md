@@ -43,5 +43,3 @@ Managing subscriptions is a chore, and most apps require invasive access to your
 4. Click `Sync Project with Gradle Files`.
 5. Build and run on a physical device or emulator.
 
----
-*Created by [Your Name] - [Your Portfolio/LinkedIn Link]*
